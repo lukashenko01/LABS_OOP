@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hi, {{ current_user.username }}!</h1>
+
+    <form class="form-inline" action="upload" method=post enctype=multipart/form-data>
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInput">Choose File</label>
+                <input type=file class="form-control-file" name=file>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Upload</button>
+            </div>
+        </div>
+    </form>
+<table class="table table-bordered">
+    <tr>
+        <th>File name</th>
+        <th>Upload time</th>
+        <th>Download</th>
+        <th>Delete</th>
+    </tr>
+    {% for file in current_user.files %}
+    <tr>
+        <td>{{ file.name }}</td>
+        <td>{{ file.timestamp }}</td>
+        <td>
+            <form class="form-inline" action="download/{{ file.name }}" method=get enctype=multipart/form-data>
+                <button type="submit" class="btn btn-primary mb-2">Download</button>
+            </form>
+        </td>
+        <td>
+            <form class="form-inline" action="delete/{{ file.name }}" method=get enctype=multipart/form-data>
+                <button type="submit" class="btn btn-primary mb-2">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
